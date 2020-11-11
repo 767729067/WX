@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main2Activity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titleandresech"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/pic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/pic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                />
+            <TextView
+                android:id="@+id/qqname"
+                app:layout_constraintLeft_toRightOf="@id/pic"
+                app:layout_constraintTop_toTopOf="@id/pic"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="胡翔"
+                android:textColor="#1296db"/>
+            <TextView
+                app:layout_constraintLeft_toRightOf="@id/pic"
+                app:layout_constraintBottom_toBottomOf="@id/pic"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:text="[4G在线]"
+                android:textColor="#1296db" />
+            <ImageView
+                android:id="@+id/add"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/add"
+                android:layout_marginRight="10dp"/>
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/add"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/carm"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/resech_bg"
+            android:hint="输入想要的联系人"
+            android:textSize="10sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        app:layout_constraintTop_toBottomOf="@id/titleandresech"
+        app:layout_constraintBottom_toTopOf="@id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+<!--    下方布局-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/buttonlayout2"
+            android:id="@+id/buttonlayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:id="@+id/bottom_iv1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/lianxiren2"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/bottom_iv1"
+                app:layout_constraintLeft_toLeftOf="@id/bottom_iv1"
+                app:layout_constraintRight_toRightOf="@id/bottom_iv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系人"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/buttonlayout1"
+            app:layout_constraintRight_toLeftOf="@id/buttonlayout3"
+            android:id="@+id/buttonlayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:id="@+id/bottom_iv2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/xiaoxi1"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/bottom_iv2"
+                app:layout_constraintLeft_toLeftOf="@id/bottom_iv2"
+                app:layout_constraintRight_toRightOf="@id/bottom_iv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消息"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/buttonlayout2"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/buttonlayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:id="@+id/bottom_iv3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/dongtai1"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/bottom_iv3"
+                app:layout_constraintLeft_toLeftOf="@id/bottom_iv3"
+                app:layout_constraintRight_toRightOf="@id/bottom_iv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动态"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
