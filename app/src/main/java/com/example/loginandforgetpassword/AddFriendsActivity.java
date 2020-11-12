@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.loginandforgetpassword.Adapter.AddFriendAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,9 +50,8 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
     private ListView request_friends;//请求添加的好友列表
     private RequestQueue requestQueue;
     private final String friendHead="http://115.29.202.70:8123/baseservice/simplefriends/";
-    private final String userInfoHead="http://115.29.202.70:8123/baseservice/simpleuserinfo/getuserinfobytel/";
     private final String dynamicHead="http://115.29.202.70:8123/baseservice/simple-dynamic-details/findFriendsDetails/";
-    private String myUtel;
+    private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -62,8 +62,9 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_add_friends);
         initView();
         Intent intent=getIntent();
-        myUtel=intent.getStringExtra("myUtel");
+        uid=intent.getStringExtra("uid");
         requestQueue= Volley.newRequestQueue(AddFriendsActivity.this);
+        loadRequsetAddFriend(uid);
     }
 
     private void initView() {
@@ -79,12 +80,36 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
         add_bt=findViewById(R.id.add_bt);
         request_friends=findViewById(R.id.request_friends);
     }
+    //打开页面请求 需要同意的好友的请求列表
+    private void loadRequsetAddFriend(final String uid){
+        JsonObjectRequest addFriendRequestForMe=new JsonObjectRequest(friendHead + "selectNoAgree/" + uid, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getBoolean("success")){
+                        JSONArray friendsRequest=response.getJSONObject("data").getJSONArray("friends");
+                        Log.i("friendsRequest",String.valueOf(friendsRequest));
+                        AddFriendAdapter addFriendAdapter=new AddFriendAdapter(AddFriendsActivity.this,friendsRequest,uid);
+                        request_friends.setAdapter(addFriendAdapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(addFriendRequestForMe);
+    }
     //点击添加按钮发送加好友请求
     private void requestAddFrind(String uid,String utel) throws JSONException {
         JSONObject pra=new JSONObject();
         pra.put("uid",uid);
-        pra.put("uid",utel);
-        JsonObjectRequest requestAddFrind = new JsonObjectRequest(Request.Method.POST, friendHead + "saveFriend", pra, new Response.Listener<JSONObject>() {
+        pra.put("utel",utel);
+        JsonObjectRequest requestAddFrind = new JsonObjectRequest(Request.Method.POST, friendHead+"saveFriend", pra, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(AddFriendsActivity.this,"你向对方发送了申请",Toast.LENGTH_SHORT).show();
@@ -92,7 +117,7 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AddFriendsActivity.this,"等待对方同意你的好友请求",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddFriendsActivity.this,"你已经发送过请求,请等待对方同意",Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(requestAddFrind);
@@ -194,26 +219,14 @@ public class AddFriendsActivity extends AppCompatActivity implements View.OnClic
     private String utel;
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.search||TextUtils.isEmpty(search_friend_byTel.getText().toString())){//点击查找好友
-            utel=search_friend_byTel.getText().toString();
-            JsonObjectRequest jsonUserInfo=new JsonObjectRequest(userInfoHead + myUtel, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        String uid=response.getJSONObject("data").getJSONObject("userinfo").getString("uid");
-                        searchFriendIofo(uid);
-                        setDynamicText(uid);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-            requestQueue.add(jsonUserInfo);
+        if(view.getId()==R.id.search){//点击查找好友
+            if(TextUtils.isEmpty(search_friend_byTel.getText().toString())){
+                Toast.makeText(AddFriendsActivity.this,"请输入你查询的好友账号",Toast.LENGTH_SHORT).show();
+            }else {
+                utel = search_friend_byTel.getText().toString();
+                searchFriendIofo(uid);
+                setDynamicText(uid);
+            }
         }
         if(view.getId()==R.id.back_home){
             finish();

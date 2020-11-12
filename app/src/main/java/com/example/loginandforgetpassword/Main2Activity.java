@@ -28,6 +28,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.loginandforgetpassword.Adapter.FragmentAdapter;
 import com.example.loginandforgetpassword.Fragment.ExpandableFragment;
 import com.example.loginandforgetpassword.Fragment.QQContentFragment;
@@ -53,6 +58,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     private String tel;
     private JSONArray getFriends;
     private ImageView add;
+    private RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -195,7 +201,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         fragmentList.add(df);
         return fragmentList;
     }
-
+    private final String userInfoHead="http://115.29.202.70:8123/baseservice/simpleuserinfo/getuserinfobytel/";
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonlayout1){
@@ -208,9 +214,26 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             vp.setCurrentItem(2);
         }
         if(view.getId()==R.id.add){
-            Intent intent=new Intent(Main2Activity.this,AddFriendsActivity.class);
-            intent.putExtra("myUtel",tel);
-            startActivity(intent);
+            requestQueue= Volley.newRequestQueue(Main2Activity.this);
+            JsonObjectRequest jsonUserInfo=new JsonObjectRequest(userInfoHead + myUtel, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String uid=response.getJSONObject("data").getJSONObject("userinfo").getString("uid");
+                        Intent intent=new Intent(Main2Activity.this,AddFriendsActivity.class);
+                        intent.putExtra("uid",uid);
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            requestQueue.add(jsonUserInfo);
         }
     }
 
