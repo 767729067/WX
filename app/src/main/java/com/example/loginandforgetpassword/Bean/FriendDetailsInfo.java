@@ -39,9 +39,9 @@ public class FriendDetailsInfo {
     }
 
     public String getContent() {
-        Document doc= Jsoup.parse(content);
-        this.content=doc.body().text();
-        return content;
+//        Document doc= Jsoup.parse(content);
+//        this.content=doc.body().text();
+        return Jsoup.parse(content).body().text();
     }
 
     public void setContent(String content) {

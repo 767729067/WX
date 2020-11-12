@@ -34,6 +34,7 @@ import com.example.loginandforgetpassword.websocketclient.MyWebSocketClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -95,35 +96,36 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 super.run();
-//                ThreadGetJson tgj=new ThreadGetJson("http://115.29.202.70:8123/baseservice/simpleuserinfo/getuserinfobytel/"+myUtel);
-//                JSONObject jsonObject=tgj.getJSON();
-                initWebSocket();
+                ThreadGetJson tgj=new ThreadGetJson("http://115.29.202.70:8123/baseservice/simpleuserinfo/getuserinfobytel/"+utel);
+                JSONObject jsonObject=tgj.getJSON();
+                initWebSocket(jsonObject);
             }
         }.start();
     }
 
-    private void initWebSocket() {
-//        JSONObject data=null;
-//        JSONObject user_info=null;
-//        try {
-//            data=jsonObject.getJSONObject("data");
-//            user_info=data.getJSONObject("userinfo");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        byte[] value=String.valueOf(user_info).getBytes();
-//        Log.i("Base64",new String(Base64.encode(value,Base64.DEFAULT)));
-
-        String wsuri="ws://echo.websocket.org";
-//        String wsuri="ws://115.29.202.70:8123/WebSocketLink/"+ new String(Base64.encode(value,Base64.DEFAULT));
-        URI uri=null;
+    private void initWebSocket(JSONObject jsonObject) {
+        JSONObject data=null;
+        JSONObject user_info=null;
         try {
-            URL url=new URL(wsuri);
-            uri=url.toURI();
-        } catch (Exception e) {
+            data=jsonObject.getJSONObject("data");
+            user_info=data.getJSONObject("userinfo");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-//        URI uri= URI.create(wsuri);
+        byte[] value=String.valueOf(user_info).getBytes();
+        Log.i("Base64",new String(Base64.encode(value,Base64.DEFAULT)));
+
+        String wsuri="ws://echo.websocket.org";
+//        String wsuri="ws://121.40.165.18:8800";
+//        String wsuri = "ws://115.29.202.70:8123/WebSocketLink/"+ new String(Base64.encode(value,Base64.DEFAULT));
+//        URI uri=null;
+//        try {
+//            URL url=new URL(wsuri);
+//            uri=url.toURI();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        URI uri= URI.create(wsuri);
         Log.i("111","111111");
         wsc=new MyWebSocketClient(uri){
             @Override

@@ -52,6 +52,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     private TextView qqname;
     private String tel;
     private JSONArray getFriends;
+    private ImageView add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -161,6 +162,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initViewAndListener() {
+        add=findViewById(R.id.add);
+        add.setOnClickListener(this);
         qqname=findViewById(R.id.qqname);
         pic=findViewById(R.id.pic);
         bottomlayout1=findViewById(R.id.buttonlayout1);
@@ -203,6 +206,11 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
         if(view.getId()==R.id.buttonlayout3){
             vp.setCurrentItem(2);
+        }
+        if(view.getId()==R.id.add){
+            Intent intent=new Intent(Main2Activity.this,AddFriendsActivity.class);
+            intent.putExtra("myUtel",tel);
+            startActivity(intent);
         }
     }
 
